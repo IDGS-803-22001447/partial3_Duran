@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block container %}
+    <style>
+        body {
+            background-color: #e3f2fd; /* Azul clarito */
+        }
+        h1 {
+            text-align: center;
+            font-size: 3rem; /* Letra más grande */
+        }
+    </style>
+
+    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+        <h2 class="text-2xl font-semibold text-center mb-6">Inicio de sesión</h2>
+
+        <!-- Mostrar mensajes flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mb-4">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('login') }}">
+            {{ form.hidden_tag() }}
+
+            <!-- Nombre de usuario -->
+            <div class="mb-4">
+                <label for="nombreUsuario" class="block text-sm font-medium text-gray-700">Usuario</label>
+                <div class="mt-1">
+                    {{ form.nombreUsuario(class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400") }}
+                    {% if form.nombreUsuario.errors %}
+                        <div class="text-red-500 text-xs mt-1">
+                            {% for error in form.nombreUsuario.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="mb-4">
+                <label for="contrasenia" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                <div class="mt-1">
+                    {{ form.contrasenia(class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400") }}
+                    {% if form.contrasenia.errors %}
+                        <div class="text-red-500 text-xs mt-1">
+                            {% for error in form.contrasenia.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <button type="submit" class="w-full py-2 px-4 bg-blue-600 text-white font-medium rounded-md shadow-md hover:bg-blue-700">
+                Iniciar sesión
+            </button>
+        </form>
+    </div>
+{% endblock %}
